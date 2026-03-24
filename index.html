@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For Diksha 💖</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      overflow: hidden;
+      color: white;
+    }
+
+    /* 🌸 BACKGROUND */
+    .bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: blur(4px) brightness(0.6);
+      z-index: -1;
+    }
+
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: -1;
+    }
+
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(20px);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+
+    button {
+      padding: 12px 25px;
+      border-radius: 12px;
+      border: none;
+      background: #ff4d6d;
+      color: white;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    input {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* ❤️ HEART */
+    #heart {
+      font-size: 80px;
+      cursor: pointer;
+    }
+
+    #progress {
+      width: 200px;
+      height: 10px;
+      background: #444;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+
+    #bar {
+      height: 100%;
+      width: 0%;
+      background: #ff4d6d;
+    }
+
+    /* 🐰 FLOAT */
+    .float {
+      position: absolute;
+      font-size: 30px;
+      animation: floatUp 8s linear infinite;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(100vh);}
+      to { transform: translateY(-10vh);}
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- START -->
+<div id="start">
+  <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1518791841217-8f162f1e1131');"></div>
+  <div class="overlay"></div>
+
+  <div class="center card">
+    <h1>Hey you 👀</h1>
+    <p>pspspsps kitten 🐱</p>
+    <button onclick="begin()">Enter 💖</button>
+  </div>
+</div>
+
+<!-- STORY -->
+<div id="storyScene" style="display:none;">
+  <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1507149833265-60c372daea22');"></div>
+  <div class="overlay"></div>
+
+  <div class="center card">
+    <div id="story"></div>
+  </div>
+</div>
+
+<!-- HEART -->
+<div id="heartScene" style="display:none;">
+  <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1517849845537-4d257902454a');"></div>
+  <div class="overlay"></div>
+
+  <div class="center card">
+    <div id="heart">❤️</div>
+    <p>Hold me 💖</p>
+    <div id="progress"><div id="bar"></div></div>
+  </div>
+</div>
+
+<!-- RIDDLE -->
+<div id="riddleScene" style="display:none;">
+  <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9');"></div>
+  <div class="overlay"></div>
+
+  <div class="center card">
+    <h2>One last thing 😏</h2>
+    <p>Our anniversary? (DDMMYYYY)</p>
+    <input id="ans">
+    <br>
+    <button onclick="check()">Unlock 💌</button>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div id="final" style="display:none;">
+  <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1517849845537-4d257902454a');"></div>
+  <div class="overlay"></div>
+
+  <div class="center card">
+    <h1>I LOVE YOU DIKSHA ❤️</h1>
+  </div>
+</div>
+
+<!-- 🎵 MUSIC -->
+<audio id="music" loop preload="auto"></audio>
+
+<script>
+// 🎵 RANDOM SWEET MUSIC
+const music = document.getElementById("music");
+
+const tracks = [
+  "https://cdn.pixabay.com/download/audio/2022/03/15/audio_3f4d55c9c3.mp3",
+  "https://cdn.pixabay.com/download/audio/2022/10/25/audio_946f6b1e6f.mp3",
+  "https://cdn.pixabay.com/download/audio/2021/09/28/audio_2b2c6cbb42.mp3",
+  "https://cdn.pixabay.com/download/audio/2022/02/10/audio_4c0d14c4b4.mp3"
+];
+
+function pickSong() {
+  return tracks[Math.floor(Math.random() * tracks.length)];
+}
+
+function startMusic() {
+  if (music.src) return;
+
+  music.src = pickSong();
+  music.volume = 0;
+
+  music.play().then(() => {
+    let vol = 0;
+    let fade = setInterval(() => {
+      if (vol >= 0.5) clearInterval(fade);
+      else {
+        vol += 0.02;
+        music.volume = vol;
+      }
+    }, 100);
+  }).catch(()=>{});
+}
+
+["click","mousemove","keydown","touchstart"].forEach(evt => {
+  document.addEventListener(evt, startMusic, { once: true });
+});
+
+// 🎬 FLOW
+function begin() {
+  document.getElementById("start").style.display="none";
+  document.getElementById("storyScene").style.display="block";
+  typeStory();
+}
+
+// 💬 STORY
+const text=[
+  "I had a secret 🫢",
+  "Something I wanted to tell you 💖",
+  "But I wanted to make it special 😌",
+  "So I made this just for you 🐱"
+];
+
+let i=0;
+
+function typeStory(){
+  let el=document.getElementById("story");
+  let t=text[i];
+  let j=0;
+  el.innerHTML="";
+
+  let inter=setInterval(()=>{
+    if(j>=t.length){
+      clearInterval(inter);
+      setTimeout(()=>{
+        i++;
+        if(i<text.length) typeStory();
+        else nextHeart();
+      },1000);
+    } else {
+      el.innerHTML+=t[j++];
+    }
+  },40);
+}
+
+// ❤️ HEART
+let hold=0, int;
+
+function nextHeart(){
+  document.getElementById("storyScene").style.display="none";
+  document.getElementById("heartScene").style.display="block";
+
+  let h=document.getElementById("heart");
+
+  h.onmousedown=()=>{
+    int=setInterval(()=>{
+      hold+=2;
+      document.getElementById("bar").style.width=hold+"%";
+
+      if(hold>=100){
+        clearInterval(int);
+        nextRiddle();
+      }
+    },50);
+  };
+
+  h.onmouseup=()=>clearInterval(int);
+}
+
+// 🧠 RIDDLE
+function nextRiddle(){
+  document.getElementById("heartScene").style.display="none";
+  document.getElementById("riddleScene").style.display="block";
+}
+
+function check(){
+  let v=document.getElementById("ans").value.trim();
+
+  if(v==="10152024"){ // 🔴 CHANGE
+    showFinal();
+  } else alert("Wrong 😤");
+}
+
+// 💖 FINAL
+function showFinal(){
+  document.getElementById("riddleScene").style.display="none";
+  document.getElementById("final").style.display="block";
+
+  setInterval(()=>{
+    let e=document.createElement("div");
+    e.className="float";
+    e.innerHTML=Math.random()>0.5?"🐰":"🐱";
+    e.style.left=Math.random()*100+"vw";
+
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),8000);
+  },300);
+}
+</script>
+
+</body>
+</html>
